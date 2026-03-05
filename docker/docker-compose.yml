@@ -1,0 +1,8 @@
+services:
+  breweries:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ../data:/app/data
+    command: ["all", "--max-pages", "2", "--per-page", "50", "--log-level", "INFO"]
