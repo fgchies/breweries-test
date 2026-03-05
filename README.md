@@ -23,12 +23,12 @@ python -m breweries_pipeline.cli all --max-pages 2 --per-page 50 --log-level INF
 
 Output:
 data/
- ├── bronze/
- │    └── breweries_YYYYMMDDTHHMMSSZ.ndjson
- ├── silver/
- │    └── country=.../state=.../*.parquet
- └── gold/
-      └── breweries_aggregated.parquet
+  bronze/
+    breweries_"date".ndjson
+  silver/
+    country=.../state=.../.../.parquet
+  gold/
+    breweries_aggregated.parquet
 
 Running Tests:
 pytest -q
