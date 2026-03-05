@@ -22,13 +22,14 @@ pip install -e .
 python -m breweries_pipeline.cli all --max-pages 2 --per-page 50 --log-level INFO
 
 Output:
-data/
-  bronze/
-    breweries_"date".ndjson
-  silver/
-    country=.../state=.../.../.parquet
-  gold/
-    breweries_aggregated.parquet
+
+- data/
+-   bronze/
+-     breweries_"date".ndjson
+-   silver/
+-     country=.../state=.../.../.parquet
+-   gold/
+-     breweries_aggregated.parquet
 
 Running Tests:
 pytest -q
