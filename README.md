@@ -21,7 +21,9 @@ pip install -e .
 ```
 
 2. Run the Pipeline:
+```
 python -m breweries_pipeline.cli all --max-pages 2 --per-page 50 --log-level INFO
+```
 
 Output:
 
