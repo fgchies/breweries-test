@@ -40,7 +40,9 @@ data/
 ```
 
 Running Tests:
+```
 pytest -q
+```
 
 Data Quality (Silver Layer):
 - Required columns 
@@ -50,7 +52,9 @@ Data Quality (Silver Layer):
 If validation fails, the pipeline stops with the error information.
 
 To run using Docker:
+```
 docker compose -f docker/docker-compose.yml up --build
+```
 
 API Reference:
 https://www.openbrewerydb.org/
