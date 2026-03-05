@@ -50,3 +50,11 @@ docker compose -f docker/docker-compose.yml up --build
 
 API Reference:
 https://www.openbrewerydb.org/
+
+-- Production Considerations --
+
+In a production environment this pipeline would be orchestrated using Apache Airflow. Each stage of the pipeline (Bronze, Silver, and Gold) could be executed as independent tasks within an Airflow DAG, allowing scheduling, dependency management, monitoring, and retries also containerization could be extended so that each pipeline layer runs in its own container. 
+
+Although the current implementation uses Pandas due to the relatively small dataset and local execution environment, the architecture was designed so that the transformation layer could be easily migrated to Spark in a production scenario with larger data volumes.
+
+Monitoring and alerting could be implemented through Airflow logs and integrations with monitoring platforms such as Datadog or similar observability tools.

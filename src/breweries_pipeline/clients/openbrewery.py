@@ -9,11 +9,13 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 
 @dataclass(frozen=True)
 class OpenBreweryClient:
+    #base API configuration
     base_url: str = "https://api.openbrewerydb.org/v1/breweries"
     timeout_seconds: int = 10
     max_retries: int = 5
     backoff_multiplier: float = 0.5
 
+    #retry request on network/API failures
     @retry(
         reraise=True,
         stop=stop_after_attempt(5),
@@ -21,10 +23,14 @@ class OpenBreweryClient:
         retry=retry_if_exception_type(requests.RequestException),
     )
     def _request(self, params: Dict[str, Any]) -> List[Dict[str, Any]]:
+        #API request
         response = requests.get(self.base_url, params=params, timeout=self.timeout_seconds)
         response.raise_for_status()
 
+        #JSON response
         data = response.json()
+
+        #validation for expected response format
         if not isinstance(data, list):
             raise ValueError("Unexpected API response format")
 
@@ -38,17 +44,27 @@ class OpenBreweryClient:
         **filters: Any,
     ) -> Iterator[List[Dict[str, Any]]]:
         """Iterates through brewery pages until the API returns an empty list."""
+        
+        #start pagination from initial page
         page = start_page
 
         while True:
+            #stop if page limit is reached
             if max_pages is not None and page > max_pages:
                 return
 
+            #build API query parameters
             params = {"page": page, "per_page": per_page, **filters}
+
+            #fetch page from API
             breweries = self._request(params)
 
+            #stop when API returns no more results
             if not breweries:
                 return
 
+            #yield current page of results
             yield breweries
+
+            #move to next page
             page += 1
